@@ -1,66 +1,273 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Fullstack Engineer Assessment - PT Fomo Inovasi Teknologi
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This repository contains the Fullstack Engineer Assessment solution, implemented using Laravel 9 and SQLite.
 
-## About Laravel
+## Overview
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The project comprises two main tasks:
+1. **Task 1: Online Store API**: A RESTful JSON API handling product display and order placement, designed to prevent negative stock during concurrent flash sale conditions.
+2. **Task 2: Hidden Item CLI**: A Laravel Artisan command-line tool that solves a grid-based pathfinding puzzle using movement constraints.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Requirements Covered
 
-## Learning Laravel
+### Task 1 - Online Store API
+- [x] Order consists of at least one order item.
+- [x] Product has inventory stock.
+- [x] API uses JSON responses.
+- [x] API uses proper HTTP status codes.
+- [x] Stock cannot become negative.
+- [x] Race condition is handled using database transaction and row-level locking.
+- [x] Functional test is available from command line.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Task 2 - Hidden Item CLI
+- [x] Grid contains obstacle `#`, clear path `.`, and starting position `X`.
+- [x] Player moves Up, Right, and Down.
+- [x] Program outputs probable coordinate points.
+- [x] **Bonus**: Grid is displayed with probable item locations marked with `$`.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Installation
 
-## Laravel Sponsors
+Run the following commands in your terminal:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```bash
+# Clone the repository
+git clone https://github.com/syahputrawork98-sketch/fullstack-engineer-assessment-fomo.git
+cd fullstack-engineer-assessment-fomo
 
-### Premium Partners
+# Install dependencies
+composer install
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+# Copy environment file
+# For Linux / Mac / Git Bash:
+cp .env.example .env
 
-## Contributing
+# For Windows PowerShell:
+Copy-Item .env.example .env
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+# Generate application key
+php artisan key:generate
+```
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## SQLite Setup
 
-## Security Vulnerabilities
+For local development and testing, this project is configured to use SQLite.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 1. Create SQLite database file
+*   **For Linux / Mac / Git Bash:**
+    ```bash
+    touch database/database.sqlite
+    ```
+*   **For Windows PowerShell:**
+    ```powershell
+    New-Item -Path database/database.sqlite -ItemType File -Force
+    ```
 
-## License
+### 2. Configure Environment (`.env`)
+Update the database connection settings in `.env` to:
+```env
+DB_CONNECTION=sqlite
+```
+*Note: You can safely comment out or delete MySQL-specific configurations (`DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`). Both `.env` and `database/database.sqlite` are ignored by Git and do not need to be committed.*
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## Database Migration and Seeder
+
+Run the migration and seed the database with initial products:
+```bash
+php artisan migrate --seed
+```
+This seeder will create the following flash sale product:
+- **Name:** `Flash Sale Product`
+- **Price:** `50000`
+- **Stock:** `10`
+
+---
+
+## Run API Server
+
+Start the local PHP development server:
+```bash
+php artisan serve
+```
+The API is available at:
+`http://127.0.0.1:8000/api`
+
+---
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/products` | Retrieve all products |
+| `GET` | `/api/products/{id}` | Retrieve details of a specific product |
+| `POST` | `/api/orders` | Place a new order |
+| `GET` | `/api/orders/{id}` | Retrieve details of a specific order |
+
+---
+
+## API Examples
+
+### 1. Retrieve Products
+`GET /api/products`
+
+**Response (200 OK):**
+```json
+{
+    "message": "Products retrieved successfully",
+    "data": [
+        {
+            "id": 1,
+            "name": "Flash Sale Product",
+            "price": 50000,
+            "stock": 10
+        }
+    ]
+}
+```
+
+### 2. Place Order
+`POST /api/orders`
+
+**Request Body:**
+```json
+{
+    "items": [
+        {
+            "product_id": 1,
+            "quantity": 1
+        }
+    ]
+}
+```
+
+**Response Success (201 Created):**
+```json
+{
+    "message": "Order created successfully",
+    "data": {
+        "order_id": 1,
+        "order_number": "ORD-20260619-786933",
+        "total_price": 50000,
+        "items": [
+            {
+                "product_id": 1,
+                "product_name": "Flash Sale Product",
+                "quantity": 1,
+                "price": 50000,
+                "subtotal": 50000
+            }
+        ]
+    }
+}
+```
+
+**Response Failure - Insufficient Stock (409 Conflict):**
+```json
+{
+    "message": "Insufficient stock for product Flash Sale Product"
+}
+```
+
+---
+
+## Race Condition Handling
+
+To handle concurrent purchase requests during flash sales and prevent negative inventory:
+1.  **Database Transactions (`DB::transaction()`):** Guarantees atomicity. If checking, subtracting stock, or writing order records fails, the entire transaction is rolled back.
+2.  **Pessimistic Locking (`lockForUpdate()`):** Acquires a row-level lock on the products being checked. Concurrent requests trying to write to the same rows must wait until the current transaction commits or rolls back, ensuring stock reads are accurate.
+
+---
+
+## Run Race Condition Test
+
+To verify the robust locking behavior, run the feature test:
+```bash
+php artisan test --filter=FlashSaleRaceConditionTest
+```
+Or run the entire test suite:
+```bash
+php artisan test
+```
+
+### Test Details & Expected Result:
+- Simulates 30 order attempts for a product with initial stock 10.
+- Exactly 10 orders must succeed (HTTP 201).
+- Exactly 20 orders must be rejected due to insufficient stock (HTTP 409).
+- Product final stock must equal 0 (never negative).
+
+---
+
+## Hidden Item CLI
+
+Artisan command to solve the hidden item grid game:
+```bash
+php artisan hidden-item:solve [options]
+```
+
+### Execution Modes:
+*   **Mode A - Auto Solve:**
+    ```bash
+    php artisan hidden-item:solve
+    ```
+    Tries all valid positive combinations of $A$ (Up), $B$ (Right), and $C$ (Down) steps, lists unique destinations, and draws the grid with probable locations marked with `$`.
+*   **Mode B - Exact Movement:**
+    ```bash
+    php artisan hidden-item:solve --up=2 --right=3 --down=1
+    ```
+    Checks validation for exact step inputs and prints final location or invalid message.
+
+*Note: One-based coordinate system is used for user outputs (`Row X, Col Y`).*
+
+### Grid Symbol Reference:
+```
+########
+#......#
+#.###..#
+#...#.##
+#X#....#
+########
+```
+- `#` = Obstacle
+- `.` = Clear path
+- `X` = Player starting position
+- `$` = Probable item location
+
+---
+
+## Git Commit Notes
+
+Meaningful commit messages were used in this repository to track progress:
+- `Initial commit`
+- `feat: initialize new Laravel project structure`
+- `feat: add Order, OrderItem, and Product models with corresponding database migrations`
+- `Add flash sale product seeder`
+- `Implement product API endpoints`
+- `Implement order API with stock locking`
+- `Add flash sale race condition test`
+- `Add hidden item CLI command`
+
+---
+
+## Final Verification Commands
+
+Use these commands to verify the complete solution:
+```bash
+# Verify route definitions
+php artisan route:list
+
+# Reset and seed database
+php artisan migrate:fresh --seed
+
+# Run tests
+php artisan test
+
+# Run hidden item solver
+php artisan hidden-item:solve
+```
